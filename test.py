@@ -64,17 +64,17 @@ def test_validate_tx():
 
 def test_parse_condition_dsl():
     res = api.parseConditionDSL({
-        'expr': 'DD8qvyA6rXSTG4P1ojuFYvXUJ8UHnCy8srWE13xkZdvg',
+        'expr': pub,
     })
     assert res == {
         'details': {
             'type': 'ed25519-sha-256',
-            'public_key': 'DD8qvyA6rXSTG4P1ojuFYvXUJ8UHnCy8srWE13xkZdvg',
+            'public_key': pub,
         },
         'uri': 'ni:///sha-256;DNG_jyuIfk5d58p_QXW-suIrpLPshloag4MGABQEovo?fpt=ed25519-sha-256&cost=131072',
     }
     res = api.parseConditionDSL({
-        'expr': ('(1 of DD8qvyA6rXSTG4P1ojuFYvXUJ8UHnCy8srWE13xkZdvg)'),
+        'expr': ('(1 of ' + pub + ')'),
     })
     assert res == {
         'details': {
@@ -82,7 +82,7 @@ def test_parse_condition_dsl():
             'threshold': 1,
             'subconditions': [{
                 'type': 'ed25519-sha-256',
-                'public_key': 'DD8qvyA6rXSTG4P1ojuFYvXUJ8UHnCy8srWE13xkZdvg'
+                'public_key': pub 
             }],
         },
         'uri': 'ni:///sha-256;Mhu9nCYOZ2Nd6CagNAaTpF0wy6u1VfrRXaypbNs8WI4?fpt=threshold-sha-256&cost=132096&subtypes=ed25519-sha-256',
@@ -123,10 +123,6 @@ def test_verify_fulfillment():
 
 class API(object):
     def __getattr__(self, name):
-        return lambda val: API.call(name, val)
-    
-    @staticmethod
-    def call(name, val):
-        return call_json_rpc(name, val)
+        return lambda val: call_json_rpc(name, val)
 
 api = API()
