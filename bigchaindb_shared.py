@@ -5,6 +5,7 @@ except ImportError:
 import ctypes as ct
 import os.path
 import glob
+import sys
 import os
 
 
@@ -36,3 +37,6 @@ def call_json_rpc(method, params):
         raise BDBError(out['error']['code'], out['error']['message'], out['error']['data'])
     return out['result']
 
+
+if __name__ == '__main__':
+    print(json.dumps(call_json_rpc(sys.argv[1], json.loads(sys.argv[2]))))

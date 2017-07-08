@@ -45,11 +45,11 @@ def test_transfer_tx():
 
 def test_transfer_with_links():
     ctx = Transaction.from_dict(create_tx(outputs=2))
-    ttx = Transaction.transfer(ctx.to_inputs()[1:], [([pub], 1)], asset_id=ctx.id)
+    ttx = Transaction.transfer(ctx.to_inputs()[1:], [([pub], 2)], asset_id=ctx.id)
     res = api.transferTx({
         'spends': [ctx.to_dict()],
         'links': [{'transaction_id': ctx.id, 'output_index': 1}],
-        'outputs': [['1', pub]],
+        'outputs': [['2', pub]],
     })
     assert res == ttx.to_dict()
 
@@ -58,6 +58,14 @@ def test_transfer_different_asset_ids_fails():
     with pytest.raises(BDBError):
         res = api.transferTx({
             'spends': [create_tx(), create_tx('a')],
+            'outputs': [['2', pub]],
+        })
+
+
+def test_transfer_wrong_amount():
+    with pytest.raises(BDBError):
+        res = api.transferTx({
+            'spends': [create_tx(), create_tx()],
             'outputs': [['2', pub]],
         })
 
