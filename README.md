@@ -6,7 +6,7 @@ It is disributed as a pre-built set of `.so` shared objects targeting Ubuntu 16.
 
 ## Features
 
-* High performance pre-built binary
+* High performance pre-built binary (x86/64, Debian 8, Ubuntu 16.04 etc)
 * No additional compilation stage
 * Very simple application native FFI interface using JSON
 
@@ -31,6 +31,8 @@ bob = api.generateKeyPair({})
 
 Make a transaction to create an asset.
 
+Arguments:
+
 * **asset** (optional): JSON payload of asset
 * **creator**: Ed25519 public key
 * **outputs**: List of amounts and condition specifications
@@ -51,9 +53,11 @@ tx_create = api.createTx({
 
 Make a transaction to transfer an asset.
 
+Arguments:
+
 * **spends**: List of transactions to use as inputs
-* **outputs**: List of amounts and condition specifications
 * **links** (optional): List of outputs to use
+* **outputs**: List of amounts and condition specifications
 * **metadata** (optional): JSON payload of metadata
 
 Example:
@@ -71,6 +75,8 @@ tx_transfer = api.transferTx({
 
 Sign a transaction
 
+Arguments:
+
 * **tx**: Transaction to be signed
 * **key**: Private key
 
@@ -87,6 +93,8 @@ tx_create_signed = api.signTx({
 
 Validate that a transaction is structurally correct
 
+Arguments:
+
 * **tx**: Transaction to check
 
 Example:
@@ -101,7 +109,11 @@ api.validateTx({
 
 Parse a condition signing spec (DSL) into an `output.condition`.
 
-A signing spec can represent a simple ed25519 condition or a complex multi-party condition, eg: `(2 of <key1>, (2 of <key2, <key3>))`.
+A signing spec can represent a simple ed25519 condition or a complex multi-party condition, eg:
+
+`(1 of <key1>, (2 of <key2, <key3>))`.
+
+Arguments:
 
 * **expr**: Expression to parse
 
