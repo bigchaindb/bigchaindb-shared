@@ -3,24 +3,25 @@ import pytest
 from bigchaindb.common.transaction import Transaction
 from bigchaindb_shared import call_json_rpc, BDBError
 
-
 """
 The scope of these tests is not to check the functionality in detail,
 but to check that basic API contract appears to be in place and does not
 randomly break.
 """
 
-
 pub = 'DD8qvyA6rXSTG4P1ojuFYvXUJ8UHnCy8srWE13xkZdvg'
 sec = '4U6vaeue9wtBzkG1ybkShUyMDRgZKEjtQ2CAQQ5PFz67'
 
 
-def create_tx():
-    return Transaction.create([pub], [([pub], 1)], asset={'msg': 'hello'}).to_dict()
+def create_tx(msg='hello', outputs=1):
+    outputs = [([pub], i+1) for i in range(outputs)]
+    return Transaction.create([pub], outputs, asset={'msg': msg}).to_dict()
 
 
 def test_generate_key_pair():
-    assert {'public_key', 'secret_key'} == set(api.generateKeyPair({}))
+    gen = lambda: api.generateKeyPair({})
+    assert {'public_key', 'secret_key'} == set(gen())
+    assert gen() != gen(), 'same pair generated twice'
 
 
 def test_create_tx():
@@ -30,6 +31,35 @@ def test_create_tx():
         'asset': {'msg': 'hello'}
     })
     assert res == create_tx()
+
+
+def test_transfer_tx():
+    ctx = Transaction.from_dict(create_tx())
+    ttx = Transaction.transfer(ctx.to_inputs(), [([pub], 1)], asset_id=ctx.id)
+    res = api.transferTx({
+        'spends': [ctx.to_dict()],
+        'outputs': [['1', pub]],
+    })
+    assert res == ttx.to_dict()
+
+
+def test_transfer_with_links():
+    ctx = Transaction.from_dict(create_tx(outputs=2))
+    ttx = Transaction.transfer(ctx.to_inputs()[1:], [([pub], 1)], asset_id=ctx.id)
+    res = api.transferTx({
+        'spends': [ctx.to_dict()],
+        'links': [{'transaction_id': ctx.id, 'output_index': 1}],
+        'outputs': [['1', pub]],
+    })
+    assert res == ttx.to_dict()
+
+
+def test_transfer_different_asset_ids_fails():
+    with pytest.raises(BDBError):
+        res = api.transferTx({
+            'spends': [create_tx(), create_tx('a')],
+            'outputs': [['2', pub]],
+        })
 
 
 def test_sign_tx():
@@ -49,7 +79,6 @@ def test_validate_tx():
         assert False
     except BDBError as e:
         assert e.args[0] == 100
-
 
     tx_bad = create_tx()
     tx_bad['id'] += 'a'
