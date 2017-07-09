@@ -1,7 +1,7 @@
 import pytest
 
 from bigchaindb.common.transaction import Transaction
-from bigchaindb_shared import call_json_rpc, BDBError
+import bigchaindb_shared as shared
 
 """
 The scope of these tests is not to check the functionality in detail,
@@ -55,7 +55,7 @@ def test_transfer_with_links():
 
 
 def test_transfer_different_asset_ids_fails():
-    with pytest.raises(BDBError):
+    with pytest.raises(shared.TxTransferError):
         res = api.transferTx({
             'spends': [create_tx(), create_tx('a')],
             'outputs': [['2', pub]],
@@ -63,7 +63,7 @@ def test_transfer_different_asset_ids_fails():
 
 
 def test_transfer_wrong_amount():
-    with pytest.raises(BDBError):
+    with pytest.raises(shared.TxTransferError):
         res = api.transferTx({
             'spends': [create_tx(), create_tx()],
             'outputs': [['2', pub]],
@@ -82,19 +82,13 @@ def test_sign_tx():
 def test_validate_tx():
     tx_bad = create_tx()
     del tx_bad['asset']
-    try:
+    with pytest.raises(shared.TxInvalid):
         api.validateTx({'tx': tx_bad})
-        assert False
-    except BDBError as e:
-        assert e.args[0] == 100
 
     tx_bad = create_tx()
     tx_bad['id'] += 'a'
-    try:
+    with pytest.raises(shared.TxInvalid):
         api.validateTx({'tx': tx_bad})
-        assert False
-    except BDBError as e:
-        assert e.args[0] == 100
 
     api.validateTx({'tx': create_tx()})
 
@@ -127,13 +121,10 @@ def test_parse_condition_dsl():
 
 
 def test_parse_condition_dsl_fail():
-    try:
+    with pytest.raises(shared.TxConditionParseError):
         api.parseConditionDSL({
             'expr': 'fds',
         })
-        assert False
-    except BDBError as e:
-        assert e.args[0] == 101
 
 
 def test_verify_fulfillment():
@@ -158,8 +149,10 @@ def test_verify_fulfillment():
     assert res == {'valid': False}
 
 
+# TODO: test verify CC uris, public keys
+
 class API(object):
     def __getattr__(self, name):
-        return lambda val: call_json_rpc(name, val)
+        return lambda val: shared.call_json_rpc(name, val)
 
 api = API()

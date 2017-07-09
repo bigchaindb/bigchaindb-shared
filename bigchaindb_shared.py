@@ -25,17 +25,23 @@ def call_so(name, req):
     return _res[0].decode()
 
 
-class BDBError(Exception):
-    pass
-
-
 def call_json_rpc(method, params):
     request = {'method': method, 'params': params}
     out = call_so('jsonRPC', json.dumps(request))
     out = json.loads(out)
     if 'error' in out:
-        raise BDBError(out['error']['code'], out['error']['message'], out['error']['data'])
+        raise ERRORS[out['error']['class']](out['error']['msg'])
     return out['result']
+
+
+class BDBSharedException(Exception):
+    pass
+
+
+ERRORS = {}
+
+for name in call_json_rpc('showErrors', {})['errors']:
+    globals()[name] = ERRORS[name] = type(name, (BDBSharedException,), {})
 
 
 if __name__ == '__main__':
