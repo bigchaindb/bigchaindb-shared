@@ -11,16 +11,13 @@ class InvalidProtocol(BDBSharedError):
 class InvalidJson(BDBSharedError):
     pass
 
+class InvalidParams(BDBSharedError):
+    pass
+
 class TxInvalid(BDBSharedError):
     pass
 
 class TxInvalidFulfillment(BDBSharedError):
-    pass
-
-class TxCreateError(BDBSharedError):
-    pass
-
-class TxTransferError(BDBSharedError):
     pass
 
 class TxConditionParseError(BDBSharedError):

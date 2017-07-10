@@ -1,3 +1,4 @@
+import json
 import pytest
 
 from bigchaindb.common.transaction import Transaction
@@ -33,6 +34,21 @@ def test_create_tx():
     assert res == create_tx()
 
 
+def test_create_tx_errors():
+    with pytest.raises(errors.InvalidParams):
+        api.createTx({
+            'creator': pub,
+            'outputs': [],
+            'asset': {'msg': 'hello'}
+        })
+    with pytest.raises(errors.InvalidParams):
+        api.createTx({
+            'creator': pub,
+            'outputs': [],
+            'asset': {}
+        })
+
+
 def test_transfer_tx():
     ctx = Transaction.from_dict(create_tx())
     ttx = Transaction.transfer(ctx.to_inputs(), [([pub], 1)], asset_id=ctx.id)
@@ -55,7 +71,7 @@ def test_transfer_with_links():
 
 
 def test_transfer_different_asset_ids_fails():
-    with pytest.raises(errors.TxTransferError):
+    with pytest.raises(errors.InvalidParams):
         res = api.transferTx({
             'spends': [create_tx(), create_tx('a')],
             'outputs': [['2', pub]],
@@ -63,7 +79,7 @@ def test_transfer_different_asset_ids_fails():
 
 
 def test_transfer_wrong_amount():
-    with pytest.raises(errors.TxTransferError):
+    with pytest.raises(errors.InvalidParams):
         res = api.transferTx({
             'spends': [create_tx(), create_tx()],
             'outputs': [['2', pub]],
@@ -150,3 +166,40 @@ def test_verify_fulfillment():
 
 
 # TODO: test verify CC uris, public keys
+
+
+
+def test_invalid_method():
+    with pytest.raises(errors.InvalidMethod):
+        api.invalidMethod({})
+
+
+def test_invalid_protocol():
+    res = api.call_so('jsonRPC', '{}')
+    assert json.loads(res)['error']['class'] == 'InvalidProtocol'
+
+
+def test_invalid_json():
+    res = api.call_so('jsonRPC', '}')
+    assert json.loads(res)['error']['class'] == 'InvalidJson'
+
+
+def test_invalid_fulfillment():
+    with pytest.raises(errors.TxInvalidFulfillment):
+        res = api.readFulfillment({
+            'fulfillment': 'a'
+        })
+
+
+def test_invalid_fulfillment():
+    with pytest.raises(errors.TxInvalidFulfillment):
+        res = api.readFulfillment({
+            'fulfillment': 'a'
+        })
+
+    with pytest.raises(errors.TxInvalidFulfillment):
+        res = api.verifyFulfillment({
+            'fulfillment': 'a',
+            'msg': 'hello',
+            'condition': create_tx()['outputs'][0]['condition'],
+        })
