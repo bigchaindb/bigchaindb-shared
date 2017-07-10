@@ -1,7 +1,7 @@
 import pytest
 
 from bigchaindb.common.transaction import Transaction
-import bigchaindb_shared as shared
+from bigchaindb_shared import errors, api
 
 """
 The scope of these tests is not to check the functionality in detail,
@@ -55,7 +55,7 @@ def test_transfer_with_links():
 
 
 def test_transfer_different_asset_ids_fails():
-    with pytest.raises(shared.TxTransferError):
+    with pytest.raises(errors.TxTransferError):
         res = api.transferTx({
             'spends': [create_tx(), create_tx('a')],
             'outputs': [['2', pub]],
@@ -63,7 +63,7 @@ def test_transfer_different_asset_ids_fails():
 
 
 def test_transfer_wrong_amount():
-    with pytest.raises(shared.TxTransferError):
+    with pytest.raises(errors.TxTransferError):
         res = api.transferTx({
             'spends': [create_tx(), create_tx()],
             'outputs': [['2', pub]],
@@ -82,12 +82,12 @@ def test_sign_tx():
 def test_validate_tx():
     tx_bad = create_tx()
     del tx_bad['asset']
-    with pytest.raises(shared.TxInvalid):
+    with pytest.raises(errors.TxInvalid):
         api.validateTx({'tx': tx_bad})
 
     tx_bad = create_tx()
     tx_bad['id'] += 'a'
-    with pytest.raises(shared.TxInvalid):
+    with pytest.raises(errors.TxInvalid):
         api.validateTx({'tx': tx_bad})
 
     api.validateTx({'tx': create_tx()})
@@ -121,7 +121,7 @@ def test_parse_condition_dsl():
 
 
 def test_parse_condition_dsl_fail():
-    with pytest.raises(shared.TxConditionParseError):
+    with pytest.raises(errors.TxConditionParseError):
         api.parseConditionDSL({
             'expr': 'fds',
         })
@@ -150,9 +150,3 @@ def test_verify_fulfillment():
 
 
 # TODO: test verify CC uris, public keys
-
-class API(object):
-    def __getattr__(self, name):
-        return lambda val: shared.call_json_rpc(name, val)
-
-api = API()

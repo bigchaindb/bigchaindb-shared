@@ -7,13 +7,17 @@ cabalfile = os.path.join(os.path.dirname(__file__),
         'ext/bigchaindb-hs/bigchaindb.cabal')
 ver = [l.split()[1] for l in open(cabalfile) if l.startswith('version:')][0]
 
-setup(name='bigchaindb-shared',
-      version=ver,
-      description='Prebuilt shared object contaning functions to read and create BigchainDB transactions',
-      author='BigchainDB Developers',
-      author_email='scott@bigchaindb.com',
-      url='https://github.com/libscott/bigchaindb-shared/',
-      py_modules=['bigchaindb_shared'],
-      packages=['dist-so'],
-      package_data={'dist-so': ['*.so', 'libs/*.so', 'bigchaindb.cabal']},
-)
+
+if __name__ == '__main__':
+    setup(name='bigchaindb-shared',
+          author='BigchainDB Developers',
+          author_email='dev@bigchaindb.com',
+          version=ver,
+          description=
+            ('Prebuilt shared object contaning functions to read and '
+             'create BigchainDB transactions'),
+          packages=['dist-so', 'bigchaindb_shared'],
+          py_modules=['bigchaindb_shared'],
+          package_data={'dist-so': ['*.so', 'libs/*.so', 'bigchaindb.cabal']},
+          url='https://github.com/libscott/bigchaindb-shared/',
+    )
