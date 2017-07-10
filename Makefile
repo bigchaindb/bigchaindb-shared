@@ -1,6 +1,5 @@
 build-image:
 	docker build --rm=false -t bigchaindb-shared .
-	make rebuild
 
 build:
 	docker run -v `pwd`:/src bigchaindb-shared bash -c 'make so-alt'
