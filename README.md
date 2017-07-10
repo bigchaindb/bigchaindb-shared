@@ -21,9 +21,9 @@ make build
 
 ## Features
 
-* High performance pre-built binary (x86/64, Debian 8, Ubuntu 16.04 etc)
-* No additional compilation stage
-* Very simple application native FFI interface using JSON
+* Easier to use JSON api
+* Simple FFI interface - easy to integrate with your language
+* High performance binary (x86/64, Debian 8, Ubuntu 16.04 etc)
 
 ## FFI
 
