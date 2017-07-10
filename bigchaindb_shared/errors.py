@@ -2,13 +2,13 @@
 class BDBSharedError(Exception):
     pass
 
+class InvalidJson(BDBSharedError):
+    pass
+
 class InvalidMethod(BDBSharedError):
     pass
 
 class InvalidProtocol(BDBSharedError):
-    pass
-
-class InvalidJson(BDBSharedError):
     pass
 
 class InvalidParams(BDBSharedError):

@@ -7,7 +7,7 @@ from bigchaindb_shared import api
 
 method = sys.argv[1]
 if method == 'writeErrors':
-    errors = api.showErrors({})['errors']
+    errors = api.showErrorClasses({})['errors']
     tpl = '\nclass BDBSharedError(Exception):\n    pass'
     for error in errors:
         tpl += '\n\nclass %s(BDBSharedError):\n    pass' % error
