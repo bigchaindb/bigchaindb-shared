@@ -8,7 +8,6 @@ import glob
 import sys
 import os
 
-from bigchaindb_shared.errors import *
 from bigchaindb_shared import errors
 
 

@@ -28,3 +28,6 @@ class TxSignMissingPrivateKeys(BDBSharedError):
 
 class TxWrongId(BDBSharedError):
     pass
+
+class Http404NotFound(BDBSharedError):
+    pass

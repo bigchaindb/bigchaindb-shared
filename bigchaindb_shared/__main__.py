@@ -1,16 +1,52 @@
+from __future__ import print_function
+import argparse
 import os.path
 import json
 import sys
 
-from bigchaindb_shared import api
+from bigchaindb_shared import api, errors
 
 
-method = sys.argv[1]
-if method == 'writeErrors':
+parser = argparse.ArgumentParser(
+        description='BigchainDB Shared command line interface',
+        usage='python -m bigchaindb_shared {method} {json}')
+
+subparsers = parser.add_subparsers(dest="method", metavar='')
+methods = api.call_json_rpc('showMethods', {})
+
+
+for (name, description) in methods['methods']:
+    subparser = subparsers.add_parser(name, help=description)
+    if name == 'generateKeyPair':
+        pass
+    else:
+        subparser.add_argument('json', type=json.loads)
+
+dumpErrors = subparsers.add_parser('dumpErrors', help="Write Python exception classes")
+dumpErrors.add_argument('path', help="Path to write to")
+
+
+args = parser.parse_args()
+
+if args.method == 'dumpErrors':
     errors = api.showErrorClasses({})['errors']
     tpl = '\nclass BDBSharedError(Exception):\n    pass'
     for error in errors:
         tpl += '\n\nclass %s(BDBSharedError):\n    pass' % error
-    open(os.path.dirname(__file__) + '/errors.py', 'w').write(tpl)
+    errspath = os.path.dirname(__file__) + '/errors.py'
+    open(errspath, 'w').write(tpl)
+    print("Wrote", errspath)
 else:
-    print(json.dumps(api.call_json_rpc(method, json.loads(sys.argv[2]))))
+    try:
+        out = api.call_json_rpc(args.method, args.json)
+        print(out)
+    except errors.BDBSharedError as e:
+        print('%s: %s' % (e.__class__.__name__, e), file=sys.stderr)
+        sys.exit(1)
+
+#if args.method == 'writeErrors':
+#    errors = api.showErrorClasses({})['errors']
+#    tpl = '\nclass BDBSharedError(Exception):\n    pass'
+#    for error in errors:
+#        tpl += '\n\nclass %s(BDBSharedError):\n    pass' % error
+#    open(os.path.dirname(__file__) + '/errors.py', 'w').write(tpl)
