@@ -12,7 +12,11 @@ It is disributed as a pre-built set of `.so` shared objects targeting Ubuntu 16.
 
 ## FFI
 
-See `bigchaindb_shared.py`.
+BigchainDB Shared is designed to be trivial to interoperate with other langauges that provide an FFI interface to call `.so` methods. All methods are exposed via a single function called 'jsonRPC'. See `bigchaindb_shared/__init__.py` for an example. Once this interface is implemented, all functions are exposed via a simple JSON protocol.
+
+## CLI
+
+BigchainDB Shared also has a CLI interface, depending only on Python (no additonal libraries to install).
 
 ## Methods
 
