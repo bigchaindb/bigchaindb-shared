@@ -21,7 +21,7 @@ make build
 
 ## Features
 
-* Easier to use JSON api
+* Easy to use JSON api
 * Simple FFI interface - easy to integrate with your language
 * High performance binary (x86/64, Debian 8, Ubuntu 16.04 etc)
 
