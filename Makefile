@@ -3,9 +3,9 @@ build-image:
 
 build:
 	docker run -v `pwd`:/src bigchaindb-shared bash -c 'make so-alt'
-	rm -rf dist-so
-	cp -r ext/bigchaindb-hs/build/dist-so .
-	ln -s dist-so/libHS*.so dist-so/bigchaindb.so
+	rm -rf lib/x86_x64
+	cp -r ext/bigchaindb-hs/build/dist-so lib/x86_x64
+	cd lib/x86_x64 && ln -s libHS*.so libbigchaindb_shared.so
 	python -m bigchaindb_shared dumpErrors bigchaindb_shared/errors.py
 
 test:

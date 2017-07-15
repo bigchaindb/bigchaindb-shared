@@ -4,7 +4,6 @@ except ImportError:
     import json
 import ctypes as ct
 import os.path
-import glob
 import sys
 import os
 
@@ -35,7 +34,7 @@ class API(object):
         return lambda val: self.call_json_rpc(name, val)
 
 
-sopath = os.environ.get('BIGCHAINDB_SHARED_PATH')
-if not sopath:
-    sopath = glob.glob(os.path.dirname(__file__) + '/../dist-so/*.so')[0]
+default_sopath = os.path.dirname(__file__) + \
+        '/../lib/x86_x64/libbigchaindb_shared.so'
+sopath = os.environ.get('BIGCHAINDB_SHARED_PATH') or default_sopath
 api = API(sopath)

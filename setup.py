@@ -16,8 +16,8 @@ if __name__ == '__main__':
           description=
             ('Prebuilt shared object contaning functions to read and '
              'create BigchainDB transactions'),
-          packages=['dist-so', 'bigchaindb_shared'],
+          packages=['libs', 'bigchaindb_shared'],
           py_modules=['bigchaindb_shared'],
-          package_data={'dist-so': ['*.so', 'libs/*.so', 'bigchaindb.cabal']},
+          package_data={'libs': ['*.so', 'libs/*.so']},
           url='https://github.com/libscott/bigchaindb-shared/',
     )
