@@ -2,7 +2,7 @@
 
 BigchainDB Shared is a client library for creating and signing BigchainDB transactions.
 
-It is disributed as a pre-built set of `.so` shared objects built on Ubuntu 16.04 x64. It may work on other platforms that also have a compatable version of libc installed (try it out and let us know).
+It is disributed as a pre-built set of **.so** shared objects built on Ubuntu 16.04 x64. It may work on other platforms that also have a compatable version of libc installed (try it out and let us know).
 
 Already provided language frontends are **Python**, **Java**, plus a **CLI**.
 
