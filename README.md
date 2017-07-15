@@ -9,7 +9,12 @@ It is disributed as a pre-built set of `.so` shared objects targeting Ubuntu 16.
 ```shell
 git clone --recursive https://github.com/libscott/bigchaindb-shared/
 cd bigchaindb-shared
-python -m bigchaindb_shared generateKeyPair '{}'
+python -m bigchaindb_shared createTx '
+{
+    "creator":"5UY9Ev2BT2yvSxzuwCrEouqpB1F7ofjhevbTujVaSk2w",
+    "outputs":[["1","(1 of 5UY9Ev2BT2yvSxzuwCrEouqpB1F7ofjhevbTujVaSk2w, 3339Ev2BT2yvSxzuwCrEouqpB1F7ofjhevbTujVaSk2w)"]]
+}
+'
 ```
 
 ## Building
@@ -21,7 +26,7 @@ make build
 
 ## Features
 
-* Easier to use JSON api
+* Easy to use JSON api
 * Simple FFI interface - easy to integrate with your language
 * High performance binary (x86/64, Debian 8, Ubuntu 16.04 etc)
 
