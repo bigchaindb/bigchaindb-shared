@@ -17,9 +17,7 @@ methods = api.call_json_rpc('showMethods', {})
 
 for (name, description) in methods['methods']:
     subparser = subparsers.add_parser(name, help=description)
-    if name == 'generateKeyPair':
-        pass
-    else:
+    if name not in {'generateKeyPair'}:
         subparser.add_argument('json', type=json.loads)
 
 dumpErrors = subparsers.add_parser('dumpErrors', help="Write Python exception classes")
@@ -38,7 +36,7 @@ if args.method == 'dumpErrors':
     print("Wrote", errspath)
 else:
     try:
-        out = api.call_json_rpc(args.method, args.json)
+        out = api.call_json_rpc(args.method, getattr(args, 'json', {}))
         print(out)
     except errors.BDBSharedError as e:
         print('%s: %s' % (e.__class__.__name__, e), file=sys.stderr)
