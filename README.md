@@ -153,7 +153,7 @@ spec = "(2 of " + alice.public_key + ", " + bob.public_key)"
 api.parseConditionDSL({
     "expr": spec
 })
-
+```
 
 ### httpGetTransaction
 
