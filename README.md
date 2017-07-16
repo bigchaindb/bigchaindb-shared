@@ -203,6 +203,5 @@ Example:
 api.httpPostTransaction({
     "server": "http://localhost:9984/",
     "tx": tx_create_signed
-    
 })
 ```
