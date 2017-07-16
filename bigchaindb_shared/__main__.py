@@ -41,10 +41,3 @@ else:
     except errors.BDBSharedError as e:
         print('%s: %s' % (e.__class__.__name__, e), file=sys.stderr)
         sys.exit(1)
-
-#if args.method == 'writeErrors':
-#    errors = api.showErrorClasses({})['errors']
-#    tpl = '\nclass BDBSharedError(Exception):\n    pass'
-#    for error in errors:
-#        tpl += '\n\nclass %s(BDBSharedError):\n    pass' % error
-#    open(os.path.dirname(__file__) + '/errors.py', 'w').write(tpl)
