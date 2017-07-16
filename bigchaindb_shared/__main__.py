@@ -37,7 +37,7 @@ if args.method == 'dumpErrors':
 else:
     try:
         out = api.call_json_rpc(args.method, getattr(args, 'json', {}))
-        print(out)
+        print(json.dumps(out))
     except errors.BDBSharedError as e:
         print('%s: %s' % (e.__class__.__name__, e), file=sys.stderr)
         sys.exit(1)
