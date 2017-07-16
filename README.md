@@ -153,3 +153,56 @@ spec = "(2 of " + alice.public_key + ", " + bob.public_key)"
 api.parseConditionDSL({
     "expr": spec
 })
+
+
+### httpGetTransaction
+
+GET a transaction from bigchaindb server.
+
+Arguments:
+
+* **server**: Base URL of server http interface.
+* **txid**: 64 character ID of the transaction to fetch.
+
+Example:
+```python
+tx = api.httpGetTransaction({
+    "server": "http://localhost:9984/",
+    "txid": tx_create.id
+})
+```
+
+### httpGetPath
+
+GET any path from bigchaindb server.
+
+Arguments:
+
+* **server**: Base URL of server http interface.
+* **path**: Path of the resource to fetch.
+
+Example:
+```python
+index = api.httpGetPath({
+    "server": "http://localhost:9984/",
+    "path": "/"
+})
+```
+
+### httpPostTransaction
+
+POST a transaction to the server.
+
+Arguments:
+
+* **server**: Base URL of server http interface.
+* **tx**: Signed transaction to send.
+
+Example:
+```python
+api.httpPostTransaction({
+    "server": "http://localhost:9984/",
+    "tx": tx_create_signed
+    
+})
+```

@@ -29,5 +29,11 @@ class TxSignMissingPrivateKeys(BDBSharedError):
 class TxWrongId(BDBSharedError):
     pass
 
+class HttpError(BDBSharedError):
+    pass
+
+class HttpJsonError(BDBSharedError):
+    pass
+
 class Http404NotFound(BDBSharedError):
     pass

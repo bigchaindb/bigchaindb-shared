@@ -4,6 +4,7 @@ import pytest
 from bigchaindb.common.transaction import Transaction
 from bigchaindb_shared import errors, api
 
+
 """
 The scope of these tests is not to check the functionality in detail,
 but to check that basic API contract appears to be in place and does not
@@ -182,13 +183,6 @@ def test_invalid_protocol():
 def test_invalid_json():
     res = api.call_so('jsonRPC', '}')
     assert json.loads(res)['error']['class'] == 'InvalidJson'
-
-
-def test_invalid_fulfillment():
-    with pytest.raises(errors.TxInvalidFulfillment):
-        res = api.readFulfillment({
-            'fulfillment': 'a'
-        })
 
 
 def test_invalid_fulfillment():
