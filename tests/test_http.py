@@ -24,6 +24,14 @@ def test_404():
         })
 
 
+def test_connection_fail():
+    with pytest.raises(errors.HttpConnectionError):
+        api.httpGetPath({
+            'server': 'http://127.11.11.11:9999',
+            'path': '/',
+        })
+
+
 def test_post_transaction():
     tx = api.createTx({
         'creator': pub,

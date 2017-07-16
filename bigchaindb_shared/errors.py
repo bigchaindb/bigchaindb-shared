@@ -32,6 +32,9 @@ class TxWrongId(BDBSharedError):
 class HttpError(BDBSharedError):
     pass
 
+class HttpConnectionError(BDBSharedError):
+    pass
+
 class HttpJsonError(BDBSharedError):
     pass
 
