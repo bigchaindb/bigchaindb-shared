@@ -34,7 +34,7 @@ make build
 
 ## FFI
 
-BigchainDB Shared is designed to be trivial to interoperate with other langauges that provide an FFI interface to call `.so` methods. All methods are exposed via a single function called 'jsonRPC'. See `bigchaindb_shared/__init__.py` for an example. Once this interface is implemented, all functions are exposed via a simple JSON protocol.
+BigchainDB Shared is designed to be trivial to interoperate with other langauges that provide an FFI interface to call `.so` methods. All methods are exposed via a single function called 'jsonRPC'. See `bigchaindb_shared/api.py` for an example. Once this interface is implemented, all functions are exposed via a simple JSON protocol.
 
 ## CLI
 
