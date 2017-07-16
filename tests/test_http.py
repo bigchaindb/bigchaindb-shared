@@ -38,6 +38,6 @@ def test_post_transaction():
         'outputs': [["1", pub]],
         'asset': {'r': str(random.random())}
     })
-    tx_signed = api.signTx({'tx': tx, 'key': sec})
+    tx_signed = api.signTx({'tx': tx, 'keys': [sec]})
     res = api.httpPostTransaction({'server': SERVER, 'tx': tx_signed})
     assert res == tx_signed

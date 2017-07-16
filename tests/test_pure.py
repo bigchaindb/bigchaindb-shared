@@ -91,9 +91,26 @@ def test_sign_tx():
     tx = create_tx()
     signed = api.signTx({
         'tx': tx,
-        'key': sec,
+        'keys': [sec],
     })
     assert signed == Transaction.from_dict(tx).sign([sec]).to_dict()
+
+
+def test_sign_tx_fail():
+    with pytest.raises(errors.TxSignMissingPrivateKeys):
+        signed = api.signTx({
+            'tx': create_tx(),
+            'keys': [],
+        })
+
+
+def test_sign_tx_partial():
+    tx = create_tx()
+    assert tx == api.signTx({
+        'tx': tx,
+        'keys': [],
+        'check': False
+    })
 
 
 def test_validate_tx():

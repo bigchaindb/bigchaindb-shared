@@ -105,6 +105,7 @@ Arguments:
 
 * **tx**: Transaction to be signed
 * **key**: Private key
+* **check** (default=True): Return an error if not fully signed
 
 Example:
 
