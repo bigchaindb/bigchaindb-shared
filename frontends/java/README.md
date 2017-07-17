@@ -9,7 +9,7 @@ Contributions welcome!
 ## Getting Started
 
 To use this code in your project, you need to make the `libbigchaindb_shared.so`
-file findable by JNA, for example, by passing `-Djna.library.path=lib/x86_x64` to
+file findable by JNA, for example, by passing `-Djna.library.path=bigchaindb_shared/lib/x86_64` to
 `java`.
 
 See: https://github.com/java-native-access/jna/blob/master/www/GettingStarted.md
