@@ -9,7 +9,7 @@ Already provided language frontends are **Python**, **Java**, plus a **CLI**.
 ## Quickstart
 
 ```shell
-git clone --recursive https://github.com/libscott/bigchaindb-shared/
+git clone --recursive https://github.com/bigchaindb/bigchaindb-shared/
 cd bigchaindb-shared
 python -m bigchaindb_shared createTx '
 {

@@ -21,4 +21,4 @@ as such:
 
 ## API
 
-See [bigchaindb-shared](http://github.com/libscott/bigchaindb-shared).
+See [bigchaindb-shared](http://github.com/bigchaindb/bigchaindb-shared).

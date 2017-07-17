@@ -13,5 +13,5 @@ setup(name='bigchaindb-shared',
       packages=['bigchaindb_shared'],
       py_modules=['bigchaindb_shared'],
       package_data={'bigchaindb_shared': ['lib/*/*.so', 'lib/*/libs/*.so']},
-      url='https://github.com/libscott/bigchaindb-shared/',
+      url='https://github.com/bigchaindb/bigchaindb-shared/',
 )
