@@ -129,7 +129,7 @@ def test_validate_tx():
 
 def test_parse_condition_dsl():
     res = api.parseConditionDSL({
-        'expr': pub,
+        'spec': pub,
     })
     assert res == {
         'details': {
@@ -139,7 +139,7 @@ def test_parse_condition_dsl():
         'uri': 'ni:///sha-256;DNG_jyuIfk5d58p_QXW-suIrpLPshloag4MGABQEovo?fpt=ed25519-sha-256&cost=131072',
     }
     res = api.parseConditionDSL({
-        'expr': ('(1 of ' + pub + ')'),
+        'spec': ('(1 of ' + pub + ')'),
     })
     assert res == {
         'details': {
@@ -157,7 +157,7 @@ def test_parse_condition_dsl():
 def test_parse_condition_dsl_fail():
     with pytest.raises(errors.TxConditionParseError):
         api.parseConditionDSL({
-            'expr': 'fds',
+            'spec': 'fds',
         })
 
 

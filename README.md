@@ -156,7 +156,7 @@ api.parseConditionDSL({
 })
 ```
 
-### httpGetTransaction
+### httpGetTx
 
 GET a transaction from bigchaindb server.
 
@@ -167,7 +167,7 @@ Arguments:
 
 Example:
 ```python
-tx = api.httpGetTransaction({
+tx = api.httpGetTx({
     "server": "http://localhost:9984/",
     "txid": tx_create.id
 })
@@ -190,7 +190,7 @@ index = api.httpGetPath({
 })
 ```
 
-### httpPostTransaction
+### httpPostTx
 
 POST a transaction to the server.
 
@@ -201,7 +201,7 @@ Arguments:
 
 Example:
 ```python
-api.httpPostTransaction({
+api.httpPostTx({
     "server": "http://localhost:9984/",
     "tx": tx_create_signed
 })

@@ -9,4 +9,4 @@ build:
 	python -m bigchaindb_shared dumpErrors bigchaindb_shared/errors.py
 
 test:
-	docker run -v `pwd`:/src -w /src bigchaindb-shared bash -c 'pip install -r requirements-dev.txt; pytest test.py -s -v'
+	docker run -v `pwd`:/src -w /src bigchaindb-shared bash -c 'pip install -r requirements-dev.txt; pytest -s -v'
